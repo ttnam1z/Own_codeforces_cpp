@@ -1,5 +1,5 @@
-#include<iostream>
-#include<vector>
+#include <iostream>
+#include <vector>
 
 using namespace std;
 
@@ -8,24 +8,34 @@ int main(){
     cin >> t;
 
     while(t--){
-        int n;
+        long long n,a,b = 0;
         cin >> n;
-        vector<int> v(2*n);
-        for(int val,i=0; i < 2*n;i++){
-            cin >> val;
-            v[i] = val;
+        cin >> a;
+        cin >> b;
+
+        if(a == 1){
+            if(((n-a)%b)==0){
+                cout << "Yes" << endl;
+            } else {
+                cout << "No" << endl;
+            }
+            continue;
         }
 
-        int cnt=0;
-        for(int i=0; i < 2*n; i++){
-            if(v[i]%2 == 1){cnt++;}
+        int match = 0;
+        long long pow=1;
+        while(true){
+            if(((n-pow) % b) ==0){match=1;break;}
+            pow *=a;
+            if(n < pow) break;
         }
-
-        if(cnt == n){
-            cout << "Yes" << endl;
-        } else {
+        if(match == 0){
             cout << "No" << endl;
+        } else {
+            cout << "Yes" << endl;
         }
+
     }
+
     return 0;
 }
