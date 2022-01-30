@@ -52,6 +52,85 @@ void insertsort(vector<int> &a){
 	}
 }
 
+//quicksort
+int partition(vector<int> &a, int p1, int p2) {
+	int j = p2;
+	int pos = p1;
+		for(int i = p1; i < p2;i++){
+			if(a[pos] < a[p2]){
+				j--;
+				int m = a[j];
+				a[j] = a[pos];
+				a[pos] = m;
+			} else {
+				pos++;
+			}
+		}
+		int m = a[j];
+		a[j] = a[p2];
+		a[p2] = m;
+	
+	return j;
+}
+void quicksort(vector<int> &a, int p1, int p2){
+	if(p1 >= p2)
+		return;
+	int i = partition(a,p1,p2);
+	quicksort(a,p1,i-1);
+	quicksort(a,i+1,p2);
+}
+
+//merge sort
+//
+void merge(vector<int> &a,int p0, int p1, int p2){
+	vector<int> a1(a.begin()+p0,a.begin()+p1+1);
+	vector<int> a2(a.begin()+p1+1,a.begin()+p2+1);
+	
+	/*for(int i = 0; i<a.size(); i++){
+		cout << *(a.begin()+i) << " ";
+	}
+	cout << "\n";
+	
+	for(int i = 0; i<a1.size(); i++){
+		cout << a1[i] << " ";
+	}
+	cout << "\n";
+	
+	for(int i = 0; i<a2.size(); i++){
+		cout << a2[i] << " ";
+	}
+	cout << "\n";*/
+	int j = 0;
+	int	k = 0;
+	for(int i = p0; i <= p2; i++){
+		if(j >= a1.size()){
+			a[i] = a2[k];
+			k++;
+		} else if(k >= a2.size()){
+			a[i]=a1[j];
+			j++;
+		} else{
+			if(a1[j]>a2[k]){
+				a[i]=a1[j];
+				j++;
+			} else {
+				a[i] = a2[k];
+				k++;
+			}
+		}
+	}
+	//cout << "\n" << p0 << " " << p1 << " " << p2 <<"\n";
+}
+
+void mergesort(vector<int> &a, int p0, int p1){
+	if(p0 < p1){
+		int mid = (p0+p1)/2;
+		//cout << "\n" << mid << "\n";
+		mergesort(a, p0, mid);
+		mergesort(a, mid +1, p1);
+		merge(a, p0, mid, p1);
+	}
+}
 
 int main() {
 	struct tree {
@@ -81,9 +160,9 @@ int main() {
 	for(int i = 0; i<ss.size(); i++){
 		cout << ss[i] << " ";
 	}
-	cout << "\n";
+	cout << "\n" << ss.size();
 	
-	insertsort(ss);
+	mergesort(ss, 0, ss.size()-1);
 	
 	//make_heap(ss.begin(),ss.end());
 	//sort_heap(ss.begin(),ss.end());
